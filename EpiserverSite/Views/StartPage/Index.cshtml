@@ -1,0 +1,32 @@
+@model EpiserverSite.Models.Pages.StartPage
+@{
+    ViewData["Title"] = Model.PageName;
+}
+
+<div class="start-page">
+    <header class="page-header">
+        <h1>@Model.Heading</h1>
+    </header>
+    
+    <main class="page-content">
+        <div class="main-content">
+            @Model.MainContent
+        </div>
+        
+        <div class="site-info">
+            <h2>About This Site</h2>
+            <p>This is a scaffolded Episerver website demonstrating:</p>
+            <ul>
+                <li>Episerver page types (StartPage)</li>
+                <li>Content type attributes and properties</li>
+                <li>Page controllers following Episerver naming conventions</li>
+                <li>Razor views with strongly-typed models</li>
+                <li>ASP.NET Core integration</li>
+            </ul>
+        </div>
+    </main>
+    
+    <footer class="page-footer">
+        <p>@Model.FooterText</p>
+    </footer>
+</div>
