@@ -150,26 +150,26 @@ jobs:
                   <div class="section">
                       <h2>📁 Project Structure</h2>
                       <pre><code>EpiserverSite/
-├── Models/
-│   ├── PageData.cs                    # Base class for all page types
-│   ├── ContentTypeAttribute.cs        # Content type metadata attribute
-│   └── Pages/
-│       ├── StartPage.cs               # Start page content type
-│       └── ProductPage.cs             # Product page content type
-├── Controllers/
-│   ├── StartPageController.cs         # Controller for StartPage
-│   └── ProductPageController.cs       # Controller for ProductPage
-├── Views/
-│   ├── _ViewStart.cshtml             # View configuration
-│   ├── StartPage/
-│   │   └── Index.cshtml              # StartPage view
-│   ├── ProductPage/
-│   │   └── Index.cshtml              # ProductPage view
-│   └── Shared/
-│       └── _Layout.cshtml            # Shared layout template
-├── Program.cs                         # Application entry point
-├── appsettings.json                   # Configuration
-└── EpiserverSite.csproj              # Project file</code></pre>
+          ├── Models/
+          │   ├── PageData.cs                    # Base class for all page types
+          │   ├── ContentTypeAttribute.cs        # Content type metadata attribute
+          │   └── Pages/
+          │       ├── StartPage.cs               # Start page content type
+          │       └── ProductPage.cs             # Product page content type
+          ├── Controllers/
+          │   ├── StartPageController.cs         # Controller for StartPage
+          │   └── ProductPageController.cs       # Controller for ProductPage
+          ├── Views/
+          │   ├── _ViewStart.cshtml             # View configuration
+          │   ├── StartPage/
+          │   │   └── Index.cshtml              # StartPage view
+          │   ├── ProductPage/
+          │   │   └── Index.cshtml              # ProductPage view
+          │   └── Shared/
+          │       └── _Layout.cshtml            # Shared layout template
+          ├── Program.cs                         # Application entry point
+          ├── appsettings.json                   # Configuration
+          └── EpiserverSite.csproj              # Project file</code></pre>
                   </div>
 
                   <div class="section">
@@ -180,7 +180,7 @@ jobs:
                       
                       <h3>1. Clone the repository</h3>
                       <pre><code>git clone https://github.com/DigIntSys/Epi-test.git
-cd Epi-test/EpiserverSite</code></pre>
+          cd Epi-test/EpiserverSite</code></pre>
 
                       <h3>2. Restore dependencies</h3>
                       <pre><code>dotnet restore</code></pre>
