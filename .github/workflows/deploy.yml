@@ -1,0 +1,234 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore ./EpiserverSite/EpiserverSite.csproj
+
+      - name: Build
+        run: dotnet build ./EpiserverSite/EpiserverSite.csproj --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ./EpiserverSite/EpiserverSite.csproj --configuration Release --no-build --output ./publish
+
+      - name: Create index.html for GitHub Pages
+        run: |
+          mkdir -p ./pages
+          cat > ./pages/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <title>Episerver Test Site</title>
+              <style>
+                  body {
+                      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+                      max-width: 1200px;
+                      margin: 0 auto;
+                      padding: 20px;
+                      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                      min-height: 100vh;
+                  }
+                  .container {
+                      background: white;
+                      padding: 40px;
+                      border-radius: 10px;
+                      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                  }
+                  h1 {
+                      color: #333;
+                      margin-bottom: 10px;
+                  }
+                  .subtitle {
+                      color: #666;
+                      font-size: 1.2em;
+                      margin-bottom: 30px;
+                  }
+                  .section {
+                      margin: 30px 0;
+                      padding: 20px;
+                      background: #f8f9fa;
+                      border-left: 4px solid #667eea;
+                      border-radius: 5px;
+                  }
+                  .section h2 {
+                      color: #667eea;
+                      margin-top: 0;
+                  }
+                  .info-box {
+                      background: #e7f3ff;
+                      border: 1px solid #b3d9ff;
+                      padding: 15px;
+                      border-radius: 5px;
+                      margin: 15px 0;
+                  }
+                  code {
+                      background: #f4f4f4;
+                      padding: 2px 6px;
+                      border-radius: 3px;
+                      font-family: 'Courier New', monospace;
+                  }
+                  ul {
+                      line-height: 1.8;
+                  }
+                  .screenshot {
+                      max-width: 100%;
+                      border-radius: 8px;
+                      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+                      margin: 20px 0;
+                  }
+                  .badge {
+                      display: inline-block;
+                      padding: 5px 10px;
+                      background: #667eea;
+                      color: white;
+                      border-radius: 3px;
+                      font-size: 0.9em;
+                      margin: 5px 5px 5px 0;
+                  }
+              </style>
+          </head>
+          <body>
+              <div class="container">
+                  <h1>🚀 Epi-test - Episerver Scaffold Test</h1>
+                  <p class="subtitle">A functioning Episerver (Optimizely CMS) website demonstration</p>
+
+                  <img src="https://github.com/user-attachments/assets/1c61937d-087e-4e86-922a-7493d3d76347" alt="Episerver Site Screenshot" class="screenshot">
+
+                  <div class="section">
+                      <h2>📋 Overview</h2>
+                      <p>This repository contains a scaffolded Episerver website demonstrating the typical architecture and structure of an Episerver/Optimizely CMS site. The site is built on ASP.NET Core 8.0 and follows Episerver conventions.</p>
+                  </div>
+
+                  <div class="section">
+                      <h2>✨ Features</h2>
+                      <ul>
+                          <li><strong>Page Types:</strong> StartPage and ProductPage content types with properties</li>
+                          <li><strong>Content Type Attributes:</strong> Mock implementation of EPiServer ContentType attributes</li>
+                          <li><strong>Controllers:</strong> Page-specific controllers following Episerver naming conventions</li>
+                          <li><strong>Views:</strong> Razor views with strongly-typed models and a shared layout</li>
+                          <li><strong>ASP.NET Core Integration:</strong> Modern ASP.NET Core 8.0 setup</li>
+                      </ul>
+                  </div>
+
+                  <div class="section">
+                      <h2>🛠️ Technologies</h2>
+                      <div>
+                          <span class="badge">ASP.NET Core 8.0</span>
+                          <span class="badge">Razor Views</span>
+                          <span class="badge">MVC Pattern</span>
+                          <span class="badge">Episerver/Optimizely CMS</span>
+                      </div>
+                  </div>
+
+                  <div class="section">
+                      <h2>📁 Project Structure</h2>
+                      <pre><code>EpiserverSite/
+├── Models/
+│   ├── PageData.cs                    # Base class for all page types
+│   ├── ContentTypeAttribute.cs        # Content type metadata attribute
+│   └── Pages/
+│       ├── StartPage.cs               # Start page content type
+│       └── ProductPage.cs             # Product page content type
+├── Controllers/
+│   ├── StartPageController.cs         # Controller for StartPage
+│   └── ProductPageController.cs       # Controller for ProductPage
+├── Views/
+│   ├── _ViewStart.cshtml             # View configuration
+│   ├── StartPage/
+│   │   └── Index.cshtml              # StartPage view
+│   ├── ProductPage/
+│   │   └── Index.cshtml              # ProductPage view
+│   └── Shared/
+│       └── _Layout.cshtml            # Shared layout template
+├── Program.cs                         # Application entry point
+├── appsettings.json                   # Configuration
+└── EpiserverSite.csproj              # Project file</code></pre>
+                  </div>
+
+                  <div class="section">
+                      <h2>🚀 Getting Started</h2>
+                      <div class="info-box">
+                          <strong>Prerequisites:</strong> .NET 8.0 SDK or later
+                      </div>
+                      
+                      <h3>1. Clone the repository</h3>
+                      <pre><code>git clone https://github.com/DigIntSys/Epi-test.git
+cd Epi-test/EpiserverSite</code></pre>
+
+                      <h3>2. Restore dependencies</h3>
+                      <pre><code>dotnet restore</code></pre>
+
+                      <h3>3. Build the project</h3>
+                      <pre><code>dotnet build</code></pre>
+
+                      <h3>4. Run the application</h3>
+                      <pre><code>dotnet run</code></pre>
+                      
+                      <p>The site will be available at <code>https://localhost:5001</code> (or <code>http://localhost:5000</code>)</p>
+                  </div>
+
+                  <div class="section">
+                      <h2>📝 Note About This GitHub Pages Deployment</h2>
+                      <div class="info-box">
+                          <p><strong>Important:</strong> This GitHub Pages site displays information about the Episerver test project. The actual ASP.NET Core application requires a server environment to run and cannot be fully hosted on GitHub Pages (which only serves static content).</p>
+                          <p>To run the full application with all its dynamic features, please clone the repository and run it locally using the instructions above.</p>
+                      </div>
+                  </div>
+
+                  <div class="section">
+                      <h2>🔗 Links</h2>
+                      <ul>
+                          <li><a href="https://github.com/DigIntSys/Epi-test" target="_blank">GitHub Repository</a></li>
+                          <li><a href="https://github.com/DigIntSys/Epi-test/blob/main/README.md" target="_blank">Full Documentation</a></li>
+                      </ul>
+                  </div>
+              </div>
+          </body>
+          </html>
+          EOF
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './pages'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

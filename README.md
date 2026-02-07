@@ -127,6 +127,18 @@ In a production Episerver site, these would be provided by the Episerver NuGet p
 - MVC Pattern
 - Episerver/Optimizely CMS Architecture
 
+## GitHub Pages Deployment
+
+This repository is configured with automatic deployment to GitHub Pages. The workflow:
+
+1. Builds the ASP.NET Core application
+2. Creates a static landing page with project information
+3. Deploys to GitHub Pages
+
+**Note:** Since ASP.NET Core is a server-side framework, the GitHub Pages site displays project information and documentation. To run the full application with all dynamic features, clone the repository and run it locally.
+
+The deployment workflow runs automatically on pushes to the `main` branch and can also be triggered manually via the Actions tab.
+
 ## License
 
 This is a test/demonstration project.
