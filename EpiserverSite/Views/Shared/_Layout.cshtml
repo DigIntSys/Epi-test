@@ -112,6 +112,44 @@
             font-weight: bold;
             margin-left: 0.5rem;
         }
+        
+        .navigation {
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: 1rem;
+            padding: 0;
+            border-radius: 8px;
+        }
+        
+        .nav-list {
+            list-style: none;
+            display: flex;
+            gap: 0;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-list li {
+            margin: 0;
+        }
+        
+        .nav-list a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            transition: background-color 0.3s ease;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        
+        .nav-list a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .nav-list a.active {
+            background: rgba(255, 255, 255, 0.3);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -119,6 +157,12 @@
         <div class="container">
             <h1>Episerver Site <span class="episerver-badge">CMS</span></h1>
             <p class="site-tagline">Powered by Optimizely CMS</p>
+            <nav class="navigation">
+                <ul class="nav-list">
+                    <li><a href="/" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "StartPage" ? "active" : "")">Home</a></li>
+                    <li><a href="/ProductPage" class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "ProductPage" ? "active" : "")">Products</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
     
