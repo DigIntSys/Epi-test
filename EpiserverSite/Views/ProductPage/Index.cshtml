@@ -1,0 +1,170 @@
+@model EpiserverSite.Models.Pages.ProductPage
+@{
+    ViewData["Title"] = Model.PageName;
+}
+
+<style>
+    .product-page {
+        padding: 20px 0;
+    }
+    
+    .page-header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+    
+    .page-header h1 {
+        color: #667eea;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+    }
+    
+    .page-header p {
+        color: #666;
+        font-size: 1.2rem;
+    }
+    
+    .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 30px;
+    }
+    
+    .product-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    }
+    
+    .product-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    .product-content {
+        padding: 20px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .product-category {
+        display: inline-block;
+        background: #e7f3ff;
+        color: #667eea;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+        align-self: flex-start;
+    }
+    
+    .product-title {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #333;
+        margin: 10px 0;
+    }
+    
+    .product-description {
+        color: #666;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 15px;
+        flex: 1;
+    }
+    
+    .product-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: auto;
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+    }
+    
+    .product-price {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #667eea;
+    }
+    
+    .product-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+    }
+    
+    .product-button:hover {
+        opacity: 0.9;
+    }
+    
+    .no-products {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+        font-size: 1.2rem;
+    }
+
+    @@media (max-width: 768px) {
+        .products-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .page-header h1 {
+            font-size: 2rem;
+        }
+    }
+</style>
+
+<div class="product-page">
+    <header class="page-header">
+        <h1>@Model.Heading</h1>
+        <p>@Model.Description</p>
+    </header>
+    
+    @if (Model.Products != null && Model.Products.Any())
+    {
+        <div class="products-grid">
+            @foreach (var product in Model.Products)
+            {
+                <div class="product-card">
+                    <img src="@product.ImageUrl" alt="@product.Name" class="product-image" />
+                    <div class="product-content">
+                        <span class="product-category">@product.Category</span>
+                        <h2 class="product-title">@product.Name</h2>
+                        <p class="product-description">@product.Description</p>
+                        <div class="product-footer">
+                            <span class="product-price">$@product.Price.ToString("0.00")</span>
+                            <button class="product-button">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="no-products">
+            <p>No products available at this time.</p>
+        </div>
+    }
+</div>
